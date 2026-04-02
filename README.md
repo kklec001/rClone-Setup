@@ -175,7 +175,7 @@ Note, you can specify specific folders to sync by adding the folder name after t
 
 Set up 2-Way Sync (Must Run before Using Bisync)
 ```py
-rclone bisync FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --resync
+rclone bisync FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --resync    #The '--resnyc' flag is only needed for the first time you run this command for each drive.
 ```
 
 #### (LINUX ONLY) Set up Cron Job to AUTOMATICALLY sync your files.
@@ -197,7 +197,15 @@ Create a scheduled cron job
 $ crontab -e                            # A new cron tab will be opened.
 ```
 
-#### (LINUX ONLY) Cron Schedule Format (Set up Bisync BEFORE using this)
+#### Mount your drive at boot
+Add the following to your cron job config file.
+```py
+@reboot /usr/bin/rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive \ 
+--log-file /var/log/rclone-photos.log --log-level INFO
+```
+
+#### Continuously sync a local copy to google drive (Set up Bisync BEFORE using this)
+Add the following to your cron job config file.
 ```py
 0 * * * * /usr/bin/rclone bisync ~/rClone/rClone_FrydmanLabGDrive FrydmanLabGDrive: \ 
 --checkers 32 --transfers 8 --fast-list --tpslimit 8 \ 
