@@ -88,8 +88,14 @@ Restart your PC and open terminal.
 
 ## Setup rClone (Frydman Lab GWE Google Drive Example, Assumes you are using a Linux Distro)
 Note: Although this is using a linux distro, the commands are basically the same. The main difference is that any local computer folder or file names will use a different syntax. (EG, "C:\Destination" vs "~/Destination")
+
+All versions of rclone use the same command structure. Type or paste the following in your terminal.
 ```py
-$ rclone config                             # Start rClone
+rclone config
+```
+
+You will see the following options pop up line by line. These are the reccomendations we received from Stanford, but you can always update or chnage this to suit your needs.
+```py
     'e/n/d/r/c/s/q>'        n                   # Create New Remote
     'name>'                 FrydmanLabGDrive    # Name your drive
     'Storage>'              drive               # Google Drive
