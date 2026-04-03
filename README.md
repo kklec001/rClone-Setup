@@ -138,8 +138,8 @@ sudo nano ~/.bashrc
 Paste the following into the file that opens.
 ```py
 # Mounts rClone Google Drives
-alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive"
-alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive"
+alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode >= minimal"
+alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode >= minimal"
 ```
 
 ## Syncing and Copying
@@ -221,8 +221,8 @@ And paste the following in the text editor:
 ```sh
 #!/bin/bash
 for i in {1..5}; do \
-rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive && \
-rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive && \                    # Here, I am mounting ANOTHER drive! Two drives!
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode >= minimal && \
+rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode >= minimal && \                    # Here, I am mounting ANOTHER drive! Two drives!
 break || sleep 5; done
 ```
 save and close
