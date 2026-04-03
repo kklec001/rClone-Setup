@@ -206,9 +206,34 @@ $ crontab -e                            # A new cron tab will be opened.
 
 #### Mount your drive at boot
 
+Create a chell script to run a program at boot.
+
+I saved this in a folder under "rClone" called ".Scripts" to hide the folder.
+
+To do this via commandline:
+```py
+mkdir ~/rClone/.Scripts/ && nano ~/rClone/.Scripts/rclone-automount.sh
+```
+
+And paste the following in the text editor:
+```sh
+#!/bin/bash
+for i in {1..5}; do \
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --log-file /var/log/rclone-mount-FLGD.log --log-level INFO && \
+rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --log-file /var/log/rclone-SGD.log --log-level INFO && \                    # Here, I am mounting ANOTHER drive! Two drives!
+break || sleep 5; done
+```
+save and close
+
+> [!NOTE]
+> For readability, I add "&& \" at the end of the line before startign a new line. This let's the program know you are running ANOTHER command and that this command is in the next line.
+> The commands surrounding the job you want to run ("rclone mount", here) are actually a fail safe to rerun the job if it fails initially.
+>
+> The period in front of "/.Scripts" hides the folder from your file explorer. This is just to prevent accidental interaction or saving other files in there. It keeps the folder tidy.
+
 Add the following to your cron job config file.
 ```py
-@reboot /usr/local/man/man1/rclone.1 mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --log-file /var/log/rclone-photos.log --log-level INFO
+@reboot /rClone/.Scripts/rclone-automount.sh
 ```
 
 > [!NOTE]
@@ -216,9 +241,21 @@ Add the following to your cron job config file.
 
 #### Continuously sync a local copy to google drive (Set up Bisync BEFORE using this)
 
+Create a shell script to run bisync:
+```py
+mkdir ~/rClone/.Scripts/ && \                                 # Unnecessary if you already made the directory.
+nano ~/rClone/.Scripts/rclone-bisync-FrydmanLabGDrive.sh
+```
+
+And paste the following in the text editor:
+```sh
+#!/bin/bash
+rclone bisync FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --checkers 32 --transfers 8 --fast-list --tpslimit 8 --log-file /var/log/rclone-FRY.log --log-level INFO
+```
+
 Add the following to your cron job config file. The below will sync every 5 minutes.
 ```py
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/local/man/man1/rclone.1 bisync ~/rClone/rClone_FrydmanLabGDrive FrydmanLabGDrive: --checkers 32 --transfers 8 --fast-list --tpslimit 8 --log-file /var/log/rclone-photos.log --log-level INFO
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * ~/rClone/.Scripts/rclone-bisync-FrydmanLabGDrive.sh
 ```
 
 With cron jobs, those asterisks correspond to the specific timing. If you want to adjust, you can change the values according to your desired timing.
