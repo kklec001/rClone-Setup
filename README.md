@@ -88,7 +88,9 @@ cd .. && rm -rf rclone-*-osx-amd64 rclone-current-osx-amd64.zip
 Restart your PC and open terminal.
 
 ## Setup rClone (Frydman Lab GWE Google Drive Example, Assumes you are using a Linux Distro)
-Note: Although this is using a linux distro, the commands are basically the same. The main difference is that any local computer folder or file names will use a different syntax. (EG, "C:\Destination" vs "~/Destination")
+> [!NOTE]
+> Although this is using a linux distro, the commands are basically the same. The main difference is that any local computer folder or file names will use a different syntax.
+> (EG, "C:\Destination" vs "~/Destination")
 
 All versions of rclone use the same command structure. Type or paste the following in your terminal.
 ```py
@@ -121,11 +123,13 @@ You will see the following options pop up line by line. These are the reccomenda
 ## Mount rClone at Sync Location
 
 ```py
-rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode >= minimal
+
+# "--vfs-cache-mode >= minimal" is required if you want to be able to edit and read the files.
 ```
-Note: the ":" after your drive name is important, it tells rClone this is a remote drive.
-This does not create a local copy, instead it treats the data like it is local.
-If you want to create a local copy of your files, go to the next section.
+> [!NOTE] The ":" after your drive name is important, it tells rClone this is a remote drive.
+> This does not create a local copy, instead it treats the data like it is local.
+> If you want to create a local copy of your files, go to the next section.
 
 
 ### Quick Commands (bashrc, Linux Only)
@@ -149,21 +153,26 @@ rclone <command> source:path dest:path [flags]
 
 Sync Test
 ```py
-rclone sync --dry-run FrydmanLabGDrive: ~/rClone/Local_FrydmanLabGDrive
+rclone sync --dry-run FrydmanLabGDrive: ~/rClone/Local_FrydmanLabGDrive --transfers 10 --tpslimit 10 -P
 ```
+> [!NOTE]
+> --transfers flag determines how many transfers occur per in prallel
+> --tps flag limits API calls per second
+> -p flag shows your progress
 
 Manual Sync
 ```py
-rclone sync --interactive ~/rClone/Local_FrydmanLabGDrive FrydmanLabGDrive:      # Sync to Drive
-rclone sync --interactive FrydmanLabGDrive:  ~/rClone/Local_FrydmanLabGDrive     # Sync from Drive
+rclone sync ~/rClone/Local_FrydmanLabGDrive FrydmanLabGDrive: --transfers 10 --tpslimit 10 -P      # Sync to Drive
+rclone sync FrydmanLabGDrive:  ~/rClone/Local_FrydmanLabGDrive --transfers 10 --tpslimit 10 -P     # Sync from Drive
 ```
 
 Manual Copy without Deleting Files
 ```py
-rclone copy --interactive ~/rClone/Local_FrydmanLabGDrive FrydmanLabGDrive:      # Saves to Drive
-rclone copy --interactive FrydmanLabGDrive:  ~/rClone/Local_FrydmanLabGDrive     # Saves from Drive
+rclone copy ~/rClone/Local_FrydmanLabGDrive FrydmanLabGDrive: --transfers 10 --tpslimit 10 -P      # Saves to Drive
+rclone copy FrydmanLabGDrive:  ~/rClone/Local_FrydmanLabGDrive --transfers 10 --tpslimit 10 -P     # Saves from Drive
 ```
-Note, you can specify specific folders to sync by adding the folder name after the cloud drive.
+> [!NOTE]
+> You can specify specific folders to sync by adding the folder name after the cloud drive.
 
 > [!WARNING]
 > If you are saving from your Google Drive and it links to an external folder, rClone WILL download that external folder.
@@ -182,8 +191,10 @@ Note, you can specify specific folders to sync by adding the folder name after t
 
 Set up 2-Way Sync (Must Run before Using Bisync)
 ```py
-rclone bisync FrydmanLabGDrive: ~/rClone/Local_FrydmanLabGDrive --resync    #The '--resnyc' flag is only needed for the first time you run this command for each drive.
+rclone bisync FrydmanLabGDrive: ~/rClone/Local_FrydmanLabGDrive --resync
 ```
+> [!NOTE]
+> The '--resnyc' flag is only needed for the first time you run this command for each drive.
 
 #### (LINUX ONLY) Set up Cron Job to AUTOMATICALLY sync your files.
 
@@ -253,7 +264,7 @@ nano ~/rClone/.Scripts/rclone-bisync-FrydmanLabGDrive.sh
 And paste the following in the text editor:
 ```sh
 #!/bin/bash
-rclone bisync FrydmanLabGDrive: ~/rClone/Local_FrydmanLabGDrive --checkers 32 --transfers 8 --fast-list --tpslimit 8 --log-file /var/log/rclone-FRY.log --log-level INFO
+rclone bisync FrydmanLabGDrive: ~/rClone/Local_FrydmanLabGDrive --checkers 32 --transfers 8 --fast-list --tpslimit 8
 ```
 
 Add the following to your cron job config file. The below will sync every 5 minutes.
@@ -292,4 +303,4 @@ exit /b
 
 Save as a ".bat" file with an obvious name (like "rclonebackup.bat") and save in a unique folder that will not be touched. To avoid problems, hide the folder so most users won't delete it by accident. This will copy files to a backup without deleting anything.
 Open taks scheduler and create a new task. Set how often you want this to run and link your .bat file to the command. Save and Windows will run the command on a schedule.
-Files deleted from the source folder WILL not be deleted from the destination folder, so it is probably a good idea to avoid clogging up the destination folder with unwanted files by keepign them in a different folder.
+Files deleted from the source folder WILL not be deleted from the destination folder, so it is probably a good idea to avoid clogging up the destination folder with unwanted files by keeping them in a different folder.
