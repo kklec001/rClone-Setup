@@ -222,7 +222,7 @@ Add the following to your cron job config file. The below will sync every 5 minu
 ```
 
 With cron jobs, those asterisks correspond to the specific timing. If you want to adjust, you can change the values according to your desired timing.
-```
+```py
 Asterix        Corresponds To        Common Values
 '*' * * * *    Minute                * (Every minute), 1-59. This correlates to the system clock, so a value of '1' will cause the job to run at H:01:00 every hour.
 * '*' * * *    Hour                  * (Every Hour), 1-12
