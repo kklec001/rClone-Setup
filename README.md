@@ -127,7 +127,7 @@ rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode
 ```
 
 > [!NOTE]
-> # "--vfs-cache-mode >= minimal" is required if you want to be able to edit and read the files. #
+> "--vfs-cache-mode >= minimal" is required if you want to be able to edit and read the files.
 > The ":" after your drive name is important, it tells rClone this is a remote drive.
 > This does not create a local copy, instead it treats the data like it is local.
 > If you want to create a local copy of your files, go to the next section.
