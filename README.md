@@ -123,11 +123,13 @@ You will see the following options pop up line by line. These are the reccomenda
 ## Mount rClone at Sync Location
 
 ```py
-rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode >= minimal
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode full --vfs-cache-max-size 25G
 ```
 
 > [!NOTE]
-> "--vfs-cache-mode >= minimal" is required if you want to be able to edit and read the files.
+> "--vfs-cache-mode minimal" is required if you want to be able to edit and read the files.
+> "--vfs-cache-mode full" uses more disc space but better performance.
+> "--vfs-cache-max-size 25G" limits the cache to 25 gigabytes of cache.
 > The ":" after your drive name is important, it tells rClone this is a remote drive.
 > This does not create a local copy, instead it treats the data like it is local.
 > If you want to create a local copy of your files, go to the next section.
@@ -143,8 +145,8 @@ sudo nano ~/.bashrc
 Paste the following into the file that opens.
 ```py
 # Mounts rClone Google Drives
-alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode >= minimal"
-alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode >= minimal"
+alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode full --vfs-cache-max-size 25G"
+alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode full --vfs-cache-max-size 25G"
 ```
 
 ## Syncing and Copying
@@ -233,8 +235,8 @@ And paste the following in the text editor:
 ```sh
 #!/bin/bash
 for i in {1..5}; do \
-rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode >= minimal && \
-rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode >= minimal && \                    # Here, I am mounting ANOTHER drive! Two drives!
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode full --vfs-cache-max-size 25G && \
+rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode full --vfs-cache-max-size 25G && \                    # Here, I am mounting ANOTHER drive! Two drives!
 break || sleep 5; done
 ```
 save and close
