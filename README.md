@@ -10,7 +10,7 @@ Sources:
 ## Generate Directory for File Sync
 ### Linux
 ```py
-mkdir ~/rClone/.rClone_FrydmanLabGDrive      # Generate Hidden Directory for Mounting Files
+mkdir ~/rClone/rClone_FrydmanLabGDrive       # Generate Dedicated Directory for Mounting Files
 mkdir ~/rClone/Local_FrydmanLabGDrive        # Generate Directory for Syncing Local Files
 ```
 
@@ -121,7 +121,7 @@ You will see the following options pop up line by line. These are the reccomenda
 ## Mount rClone at Sync Location
 
 ```py
-rclone mount FrydmanLabGDrive: ~/rClone/.rClone_FrydmanLabGDrive
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive
 ```
 Note: the ":" after your drive name is important, it tells rClone this is a remote drive.
 This does not create a local copy, instead it treats the data like it is local.
@@ -138,8 +138,8 @@ sudo nano ~/.bashrc
 Paste the following into the file that opens.
 ```py
 # Mounts rClone Google Drives
-alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/.rClone_FrydmanLabGDrive"
-alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/.rClone_StanfordGDrive"
+alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive"
+alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive"
 ```
 
 ## Syncing and Copying
@@ -221,8 +221,8 @@ And paste the following in the text editor:
 ```sh
 #!/bin/bash
 for i in {1..5}; do \
-rclone mount FrydmanLabGDrive: ~/rClone/.rClone_FrydmanLabGDrive && \
-rclone mount StanfordGDrive: ~/rClone/.rClone_StanfordGDrive && \                    # Here, I am mounting ANOTHER drive! Two drives!
+rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive && \
+rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive && \                    # Here, I am mounting ANOTHER drive! Two drives!
 break || sleep 5; done
 ```
 save and close
