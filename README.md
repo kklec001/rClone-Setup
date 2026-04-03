@@ -236,7 +236,7 @@ Add the following to your cron job config file.
 @reboot /rClone/.Scripts/rclone-automount.sh
 ```
 
-> [!NOTE]
+> [!WARNING]
 > Do not add empty paragraph spaces between commands in the file, you will get an error. The cron file works line by line, so any empty space will be interpreted as a command and it will be flagged.
 
 #### Continuously sync a local copy to google drive (Set up Bisync BEFORE using this)
