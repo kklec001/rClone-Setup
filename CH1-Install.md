@@ -56,6 +56,9 @@ Restart PC - Open Terminal
 
 ### Windows
 
+This operation will require a tool called Winget - this is not installed on some Windows PCs, but it should be available on most.
+If you run into an issue with winget, skip to "Install Winget".
+
 Open Windows Powershell as an administrator
 ```bat
 winget install Rclone.Rclone
@@ -64,6 +67,41 @@ winget install Rclone.Rclone
 To uninstall, run the following.
 ```bat
 winget uninstall Rclone.Rclone --force
+```
+
+#### Install Winget
+
+Download the (Winget Dependencies)[https://github.com/microsoft/winget-cli/releases/download/v1.12.350/DesktopAppInstaller_Dependencies.zip] and unzip the folder into your downloads.
+
+Open Windows Powershell as an administrator.
+```bash
+cd C:\Users\<USERNAME>\Downloads\DesktopAppInstaller_Dependencies
+```
+
+Install Appx Packages
+```bash
+Add-AppxPackage .\Microsoft.VCLibs.140.00.UWPDesktop_14.0.33728.0_x64.appx
+Add-AppxPackage .\Microsoft.VCLibs.140.00_14.0.33519.0_x64.appx
+Add-AppxPackage .\Microsoft.WindowsAppRuntime.1.8_8000.616.304.0_x64.appx
+```
+
+Via browser, install the (Winget Installer)[https://github.com/microsoft/winget-cli/releases/download/v1.12.350/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle] and (Winget License File)[https://github.com/microsoft/winget-cli/releases/download/v1.12.350/e53e159d00e04f729cc2180cffd1c02e_License1.xml]; save both to your downloads folder.
+
+Open Windows powershell as an administrator and change your directory to where you downloaded the files.
+```bash
+cd C:\Users\<USERNAME>\Downloads
+```
+
+Install via commandline using Appx
+```bash
+Add-AppxProvisionedPackage -Online `
+  -PackagePath .\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle `
+  -LicensePath .\e53e159d00e04f729cc2180cffd1c02e_License1.xml
+```
+
+Verify the install.
+```bash
+winget --version
 ```
 
 ### Mac
