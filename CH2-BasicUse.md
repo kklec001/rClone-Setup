@@ -10,11 +10,11 @@ All versions of rclone use the same command structure. Type or paste the followi
 rclone config
 ```
 
-You will see the following options pop up line by line. These are the reccomendations we received from Stanford, but you can always update or chnage this to suit your needs.
+You will see the following options pop up line by line. These are the reccomendations we received from Stanford, but you can always update or change this to suit your needs.
 ```py
     'e/n/d/r/c/s/q>'        n                   # Create New Remote
     'name>'                 FrydmanLabGDrive    # Name your drive
-    'Storage>'              drive               # Google Drive
+    'Storage>'              drive               # Google Drive: Can be any drive, it will give you a list.
     'client_id>'                                # Leave Blank
     'client_secret>'                            # Leave Blank
     'scope>'                1                   # Access all files
@@ -33,7 +33,7 @@ You will see the following options pop up line by line. These are the reccomenda
     'e/n/d/r/c/s/q>'        q                   # Quit editor.
 ```
 
-## Mount rClone at Sync Location
+## 2.1 Mounting rClone at Sync Location
 
 ```py
 rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDrive --vfs-cache-mode full --vfs-cache-max-size 25G
@@ -62,7 +62,7 @@ alias fry-gdrive="rclone mount FrydmanLabGDrive: ~/rClone/rClone_FrydmanLabGDriv
 alias stanford-gdrive="rclone mount StanfordGDrive: ~/rClone/rClone_StanfordGDrive --vfs-cache-mode full --vfs-cache-max-size 25G"
 ```
 
-## Syncing and Copying
+## 2.2 Syncing and Copying
 
 Commands generally follow the below format:
 rclone <command> source:path dest:path [flags]
@@ -102,3 +102,13 @@ rclone copy FrydmanLabGDrive:  ~/rClone/Local_FrydmanLabGDrive --transfers 10 --
 > >         Share link to MyFolder
 > > ```
 > rClone will recurse infinitely and you will have an infinitely large file. Ask me how I learned this!
+
+## 2.3 Using rClone to save to a local backup drive
+
+rClone can be used to save to a local drive as well. You can find full documentation [here](https://rclone.org/local/).
+
+To backup locally, mount your drive and note the location. Use the following commands:
+```py
+rclone copy ~/rClone/Local_FrydmanLabGDrive ~/ExternalDrive --transfers 10 --tpslimit 10 -P      # Saves to Drive
+rclone copy ~/ExternalDrive  ~/rClone/Local_FrydmanLabGDrive --transfers 10 --tpslimit 10 -P     # Saves from Drive
+```
